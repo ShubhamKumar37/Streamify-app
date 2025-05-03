@@ -29,18 +29,19 @@ function App() {
   }, []);
 
   return (
-    <Routes>
+    <div data-theme={user.theme}>
+      <Routes>
+        <Route path="/" element={<ProtectedRoute><Layout><HomePage /></Layout></ProtectedRoute>} />
+        <Route path="/login" element={<AuthProtectedRoute><LoginPage /></AuthProtectedRoute>} />
+        <Route path="/signup" element={<AuthProtectedRoute><SignupPage /></AuthProtectedRoute>} />
+        <Route path="/notifications" element={<ProtectedRoute><Layout><NotificationsPage /></Layout></ProtectedRoute>} />
+        <Route path="/onboard" element={<OnboardingPage />} />
+        <Route path="/chat" element={<ProtectedRoute><Layout><ChatPage /></Layout></ProtectedRoute>} />
+        <Route path="/call" element={<ProtectedRoute><Layout><CallPage /></Layout></ProtectedRoute>} />
+        <Route path="*" element={<PageNotFound />} />
 
-      <Route path="/" element={<ProtectedRoute><Layout><HomePage /></Layout></ProtectedRoute>} />
-      <Route path="/login" element={<AuthProtectedRoute><LoginPage /></AuthProtectedRoute>} />
-      <Route path="/signup" element={<AuthProtectedRoute><SignupPage /></AuthProtectedRoute>} />
-      <Route path="/notifications" element={<ProtectedRoute><Layout><NotificationsPage /></Layout></ProtectedRoute>} />
-      <Route path="/onboard" element={<OnboardingPage />} />
-      <Route path="/chat" element={<ProtectedRoute><Layout><ChatPage /></Layout></ProtectedRoute>} />
-      <Route path="/call" element={<ProtectedRoute><Layout><CallPage /></Layout></ProtectedRoute>} />
-      <Route path="*" element={<PageNotFound />} />
-
-    </Routes>
+      </Routes>
+    </div>
   );
 }
 

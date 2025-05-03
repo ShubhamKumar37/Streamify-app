@@ -2,7 +2,7 @@ import React from 'react'
 
 const HomePage = () => {
   return (
-    <div className="" data-theme="coffee">
+    <div className="">
       <button className="btn">Button</button>
       <button className="btn btn-neutral">Neutral</button>
       <button className="btn btn-primary">Primary</button>

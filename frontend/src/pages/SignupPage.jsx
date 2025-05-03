@@ -3,20 +3,20 @@ import { useForm } from 'react-hook-form'
 import { ShipWheelIcon } from "lucide-react";
 import { useMutation } from '@tanstack/react-query';
 import api from '../lib/axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import signpBanner from '../assets/images/signupbanner.png';
+import { useDispatch } from 'react-redux';
+import { signup } from '../redux/operation/authOperaton';
+import { useState } from 'react';
 
 const SignupPage = () => {
-
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { register, handleSubmit, formState: { errors } } = useForm();
-  const { isPending } = useMutation({
-    mutationFn: (data) => {
-      return api.post("/auth/signup", data);
-    }
-  });
-
-  const onSubmit = (data) => {
+  const [isPending, setIsPending] = useState(false);
+  const onSubmit = async(data) => {
     console.log(data);
+    dispatch(signup(data, setIsPending, navigate));
   }
 
   return (

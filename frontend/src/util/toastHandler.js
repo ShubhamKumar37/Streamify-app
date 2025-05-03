@@ -17,7 +17,7 @@ export const toastHandler = async (
         else if (error.message === 'Network Error')
             toast.error('Network issue detected. Please check your connection.');
         console.log("Error occurred :: ", error);
-        return null;
+        return error.response;
     }
     finally
     {

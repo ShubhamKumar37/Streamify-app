@@ -15,7 +15,7 @@ function App() {
       dispatch(getMe(navigate));
   }, []);
   return (
-    <div className="" data-theme="coffee">
+    <div className="" data-theme="dark">
       <Outlet />
     </div>
   )

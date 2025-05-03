@@ -5,6 +5,7 @@ import NotificationsPage from './NotificationsPage'
 import OnboardingPage from './OnboardingPage'
 import ChatPage from './ChatPage'
 import CallPage from './CallPage'
+import PageNotFound from './PageNotFound'
 
 export {
     HomePage,
@@ -13,5 +14,6 @@ export {
     NotificationsPage,
     OnboardingPage,
     ChatPage,
-    CallPage
+    CallPage,
+    PageNotFound
 };  

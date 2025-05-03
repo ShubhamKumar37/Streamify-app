@@ -1,6 +1,9 @@
 import React from 'react'
+import { useDispatch } from 'react-redux'
+import { logout } from '../redux/operation/authOperaton'
 
 const HomePage = () => {
+  const dispatch = useDispatch(); 
   return (
     <div className="">
       <button className="btn">Button</button>

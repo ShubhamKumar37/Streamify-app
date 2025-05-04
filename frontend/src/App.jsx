@@ -1,5 +1,5 @@
 import './App.css';
-import { Routes, Route, Outlet, useNavigate } from 'react-router-dom';
+import { Routes, Route, Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { getMe } from './redux/operation/authOperaton.js';
@@ -23,10 +23,11 @@ function App() {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const location = useLocation();
+  
   useEffect(() => {
-    dispatch(getMe(navigate));
-  }, []);
+    dispatch(getMe(navigate, location));
+  }, [dispatch, navigate, location]);
 
   return (
     <div data-theme={user.theme}>
@@ -36,8 +37,8 @@ function App() {
         <Route path="/signup" element={<AuthProtectedRoute><SignupPage /></AuthProtectedRoute>} />
         <Route path="/notifications" element={<ProtectedRoute><Layout><NotificationsPage /></Layout></ProtectedRoute>} />
         <Route path="/onboard" element={<OnboardingPage />} />
-        <Route path="/chat" element={<ProtectedRoute><Layout><ChatPage /></Layout></ProtectedRoute>} />
-        <Route path="/call" element={<ProtectedRoute><Layout><CallPage /></Layout></ProtectedRoute>} />
+        <Route path="/chat/:id" element={<ProtectedRoute><Layout showSidebar={false}><ChatPage /></Layout></ProtectedRoute>} />
+        <Route path="/call/:callId" element={<ProtectedRoute><Layout><CallPage /></Layout></ProtectedRoute>} />
         <Route path="*" element={<PageNotFound />} />
 
       </Routes>

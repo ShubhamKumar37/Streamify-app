@@ -33,10 +33,6 @@ const HomePage = () => {
       setRecommendedUsers(recommendedUsers.data);
       setOutgoingFriendReqs(outgoingFriendReqs.data);
 
-      console.log("This is the friends = ", friends);
-      console.log("This is the recommendedUsers = ", recommendedUsers);
-      console.log("This is the outgoingFriendReqs = ", outgoingFriendReqs);
-
       setLoadingFriends(false);
       setLoadingUsers(false);
     };

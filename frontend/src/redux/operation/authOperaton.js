@@ -1,23 +1,37 @@
 import api from '../../lib/axios';
 import { toastHandler } from '../../util/toastHandler';
-import { setUser } from '../slice/userSlice';
+import { setUser, setIsLoading } from '../slice/userSlice';
 
-export const getMe = (navigate) => {
+export const getMe = (navigate, location) => {
   return async (dispatch) => {
+    dispatch(setIsLoading(true));
+
     const response = await toastHandler(
       api.get("/auth/me"),
       'Loading...',
       'User fetched successfully',
       'Failed to fetch user'
     );
-    console.log("This is the response = ", response);
 
     if (response.status === 200) {
-      dispatch(setUser(response.data.data));
-      const currentPath = window.location.pathname;
-      if (currentPath !== '/') {
-        navigate('/');
+      const userData = response.data.data;
+      dispatch(setUser(userData));
+      
+      // Handle redirect after authentication
+      dispatch(setIsLoading(false));
+      
+      // Get the original path from location state
+      const from = location?.state?.from?.pathname;
+      
+      // If there's a redirect path and user is onboarded, navigate there
+      if (from && userData.onBoard !== false) {
+        navigate(from, { replace: true });
+      } else if (userData.onBoard === false) {
+        // If user is not onboarded, go to onboarding page
+        navigate('/onboard', { replace: true });
       }
+    } else {
+      dispatch(setIsLoading(false));
     }
   };
 };
@@ -45,7 +59,7 @@ export const onboard = (data, setIsPending, navigate) => {
   }
 }
 
-export const login = (data, setIsPending, navigate) => {
+export const login = (data, setIsPending, navigate, redirectPath = "/") => {
   return async (dispatch) => {
     setIsPending(true);
     const response = await toastHandler(api.post("/auth/login", data), 'Logging in...', 'Logged in successfully', 'Failed to login');
@@ -53,7 +67,14 @@ export const login = (data, setIsPending, navigate) => {
 
     if (response.status === 200) {
       dispatch(setUser(response.data.data));
-      navigate('/onboard');
+      
+      // Check if the user needs onboarding
+      if (response.data.data.onBoard === false) {
+        navigate('/onboard');
+      } else {
+        // Use the redirect path from parameter instead of hardcoding
+        navigate(redirectPath, { replace: true });
+      }
     }
   }
 }
@@ -72,7 +93,7 @@ export const logout = () => {
 export const getUserFriends = async () => {
   try {
     const response = await api.get("/user/friends");
-    console.log("This is the getUserFriends response = ", response);
+    // console.log("This is the getUserFriends response = ", response);
     return response.data;
   } catch (error) {
     console.error("Failed to load friends", error);
@@ -120,8 +141,3 @@ export const acceptFriendRequest = async (requestId) => {
   return response.data;
 }
 
-export const getStreamToken = async () => {
-  const response = await toastHandler(api.get("/chat/token"), 'Loading stream token...', 'Stream token loaded successfully', 'Failed to load stream token');
-  // console.log("This is the getStreamToken response = ", response);
-  return response.data;
-}

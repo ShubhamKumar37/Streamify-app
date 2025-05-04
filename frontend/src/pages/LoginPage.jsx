@@ -1,24 +1,32 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ShipWheelIcon } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { login } from "../redux/operation/authOperaton";
 import signpBanner from '../assets/images/signupbanner.png';
+import { useSelector } from "react-redux";
 
 const LoginPage = () => {
   const {register, handleSubmit, formState: {errors}} = useForm();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
+  const {user} = useSelector((state) => state.user);
   const [isPending, setIsPending] = useState(false);
-
+  
   const handleLogin = async(data) => {
-    console.log(data);
-    dispatch(login(data, setIsPending, navigate));
+    dispatch(login(data, setIsPending, navigate, from));
   };
 
+  useEffect(() => {
+    if(user) {
+      console.log("User is logged in, redirecting to ", from);
+      navigate(from, {replace: true});
+    }
+  }, [user, from, navigate]);
+  
   return (
     <div
       className="h-screen flex items-center justify-center p-4 sm:p-6 md:p-8"
@@ -31,7 +39,7 @@ const LoginPage = () => {
           <div className="mb-4 flex items-center justify-start gap-2">
             <ShipWheelIcon className="size-9 text-primary" />
             <span className="text-3xl font-bold font-mono bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary  tracking-wider">
-              Streamify
+              Chatter
             </span>
           </div>
 

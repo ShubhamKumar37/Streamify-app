@@ -70,37 +70,58 @@ export const logout = () => {
 }
 
 export const getUserFriends = async () => {
-  const response = await toastHandler(api.get("/user/friends"), 'Loading friends...', 'Friends loaded successfully', 'Failed to load friends');
-  console.log("This is the getUserFriends response = ", response);
-  return response.data;
+  try {
+    const response = await api.get("/user/friends");
+    console.log("This is the getUserFriends response = ", response);
+    return response.data;
+  } catch (error) {
+    console.error("Failed to load friends", error);
+    throw error;
+  }
 }
 
 export const getRecommendedUsers = async () => {
-  const response = await toastHandler(api.get("/user"), 'Loading recommended users...', 'Recommended users loaded successfully', 'Failed to load recommended users');
-  console.log("This is the getRecommendedUsers response = ", response);
-  return response.data;
+  try {
+    const response = await api.get("/user");
+    // console.log("This is the getRecommendedUsers response = ", response);
+    return response.data;
+  } catch (error) {
+    console.error("Failed to load recommended users", error);
+    throw error;
+  }
 }
 
 export const getOutgoingFriendReqs = async () => {
-  const response = await toastHandler(api.get("/user/outgoing-friend-requests"), 'Loading outgoing friend requests...', 'Outgoing friend requests loaded successfully', 'Failed to load outgoing friend requests');
-  console.log("This is the getOutgoingFriendReqs response = ", response);
-  return response.data;
+  try {
+    const response = await api.get("/user/outgoing-friend-requests");
+    // console.log("This is the getOutgoingFriendReqs response = ", response);
+    return response.data;
+  } catch (error) {
+    console.error("Failed to load outgoing friend requests", error);
+    throw error;
+  }
 }
 
 export const sendFriendRequest = async (userId) => {
   const response = await toastHandler(api.post(`/user/friend-request/${userId}`), 'Sending friend request...', 'Friend request sent successfully', 'Failed to send friend request');
-  console.log("This is the sendFriendRequest response = ", response);
+  // console.log("This is the sendFriendRequest response = ", response);
+  return response.data;
+}
+
+export const getFriendRequest = async () => {
+  const response = await toastHandler(api.get("/user/friend-requests"), 'Loading friend requests...', 'Friend requests loaded successfully', 'Failed to load friend requests');
+  // console.log("This is the getFriendRequest response = ", response);
   return response.data;
 }
 
 export const acceptFriendRequest = async (requestId) => {
   const response = await toastHandler(api.post(`/user/friend-request/${requestId}/accept`), 'Accepting friend request...', 'Friend request accepted successfully', 'Failed to accept friend request');
-  console.log("This is the acceptFriendRequest response = ", response);
+  // console.log("This is the acceptFriendRequest response = ", response);
   return response.data;
 }
 
 export const getStreamToken = async () => {
   const response = await toastHandler(api.get("/chat/token"), 'Loading stream token...', 'Stream token loaded successfully', 'Failed to load stream token');
-  console.log("This is the getStreamToken response = ", response);
+  // console.log("This is the getStreamToken response = ", response);
   return response.data;
 }

@@ -22,6 +22,8 @@ const HomePage = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoadingFriends(true);
+      setLoadingUsers(true);
       const [friends, recommendedUsers, outgoingFriendReqs] = await Promise.all([
         getUserFriends(),
         getRecommendedUsers(),
@@ -34,6 +36,9 @@ const HomePage = () => {
       console.log("This is the friends = ", friends);
       console.log("This is the recommendedUsers = ", recommendedUsers);
       console.log("This is the outgoingFriendReqs = ", outgoingFriendReqs);
+
+      setLoadingFriends(false);
+      setLoadingUsers(false);
     };
     fetchData();
   }, []);
@@ -42,11 +47,17 @@ const HomePage = () => {
     const outgoingIds = new Set();
     if (outgoingFriendReqs && outgoingFriendReqs.length > 0) {
       outgoingFriendReqs.forEach((req) => {
-        outgoingIds.add(req.recipient._id);
+        outgoingIds.add(req.receiver._id);
       });
       setOutgoingRequestsIds(outgoingIds);
     }
   }, [outgoingFriendReqs]);
+
+  const handleSendFriendRequest = async (userId) => {
+    setIsPending(true);
+    await sendFriendRequest(userId);
+    setIsPending(false);
+  };
 
   return (
     <div className="p-4 sm:p-6 lg:p-8">
@@ -141,7 +152,7 @@ const HomePage = () => {
                       <button
                         className={`btn w-full mt-2 ${hasRequestBeenSent ? "btn-disabled" : "btn-primary"
                           } `}
-                        onClick={() => sendRequestMutation(user._id)}
+                        onClick={() => handleSendFriendRequest(user._id)}
                         disabled={hasRequestBeenSent || isPending}
                       >
                         {hasRequestBeenSent ? (

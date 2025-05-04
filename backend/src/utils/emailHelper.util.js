@@ -19,7 +19,7 @@ export const sendEmail = async (to, subject, text) => {
     });
 
     const mailOptions = {
-        from: `Streamify <noreply@streamify.com>`,
+        from: `Chatter <noreply@chatter.com>`,
         to,
         subject,
         html: text,

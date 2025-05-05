@@ -7,7 +7,7 @@ import ChatPage from './ChatPage'
 import CallPage from './CallPage'
 import PageNotFound from './PageNotFound'
 import ChangePassword from './ChangePassword'
-
+import FriendsPage from './FriendsPage'
 
 export {
     HomePage,
@@ -18,5 +18,6 @@ export {
     ChatPage,
     CallPage,
     PageNotFound,
-    ChangePassword
+    ChangePassword,
+    FriendsPage
 };  

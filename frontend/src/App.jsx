@@ -13,7 +13,8 @@ import {
   ChatPage,
   CallPage,
   PageNotFound,
-  ChangePassword
+  ChangePassword,
+  FriendsPage
 } from './pages/index.js';
 
 import ProtectedRoute from './ProtectedRoute.jsx';
@@ -41,6 +42,7 @@ function App() {
         <Route path="/chat/:id" element={<ProtectedRoute><Layout showSidebar={false}><ChatPage /></Layout></ProtectedRoute>} />
         <Route path="/call/:callId" element={<ProtectedRoute><Layout><CallPage /></Layout></ProtectedRoute>} />
         <Route path="/change-password" element={<ChangePassword />} />
+        <Route path="/friends" element={<ProtectedRoute><Layout><FriendsPage /></Layout></ProtectedRoute>} />
         <Route path="*" element={<PageNotFound />} />
 
       </Routes>

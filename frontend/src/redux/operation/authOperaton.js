@@ -5,9 +5,8 @@ import { setUser, setIsLoading } from '../slice/userSlice';
 export const getMe = (navigate, location) => {
   return async (dispatch) => {
     dispatch(setIsLoading(true));
-
     const response = await toastHandler(
-      api.get("/auth/me"),
+      api.put("/auth/me", { jwt: localStorage.getItem("jwt") }),
       'Loading...',
       'User fetched successfully',
       'Failed to fetch user'
@@ -86,6 +85,7 @@ export const logout = () => {
 
     if (response.status === 200) {
       dispatch(setUser(null));
+      localStorage.removeItem("jwt");
     }
   }
 }

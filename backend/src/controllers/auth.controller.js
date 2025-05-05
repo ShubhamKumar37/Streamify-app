@@ -42,8 +42,9 @@ class AuthController {
 
         res.cookie("jwt", token, {
             httpOnly: true,
-            secure: process.env.NODE_ENV !== "development",
-            maxAge: 1 * 24 * 60 * 60 * 1000,
+            secure: true,
+            maxAge: 86400, 
+            sameSite: "None",
         });
 
         return res.status(200).json(new ApiResponse(200, "Login successful", { ...user._doc, token }));
@@ -89,6 +90,8 @@ class AuthController {
 
     sendOtp = asyncHandler(async (req, res) => {
         const { email } = req.body;
+        if (!email) throw new ApiError(400, "Email is required");
+
         const otp = Math.floor(100000 + Math.random() * 900000).toString();
         await Otp.create({ email, otp });
         return res.status(200).json(new ApiResponse(200, "OTP sent successfully", otp));
@@ -105,7 +108,7 @@ class AuthController {
         user.password = password;
         await user.save();
 
-        return res.status(200).json(new ApiResponse(200, "Password changed successfully"));
+        return res.status(200).json(new ApiResponse(200, "Password changed successfully", null));
     });
 }
 

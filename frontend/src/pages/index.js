@@ -6,6 +6,8 @@ import OnboardingPage from './OnboardingPage'
 import ChatPage from './ChatPage'
 import CallPage from './CallPage'
 import PageNotFound from './PageNotFound'
+import ChangePassword from './ChangePassword'
+
 
 export {
     HomePage,
@@ -15,5 +17,6 @@ export {
     OnboardingPage,
     ChatPage,
     CallPage,
-    PageNotFound
+    PageNotFound,
+    ChangePassword
 };  

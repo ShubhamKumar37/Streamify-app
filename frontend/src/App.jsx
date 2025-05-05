@@ -13,6 +13,7 @@ import {
   ChatPage,
   CallPage,
   PageNotFound,
+  ChangePassword
 } from './pages/index.js';
 
 import ProtectedRoute from './ProtectedRoute.jsx';
@@ -39,6 +40,7 @@ function App() {
         <Route path="/onboard" element={<OnboardingPage />} />
         <Route path="/chat/:id" element={<ProtectedRoute><Layout showSidebar={false}><ChatPage /></Layout></ProtectedRoute>} />
         <Route path="/call/:callId" element={<ProtectedRoute><Layout><CallPage /></Layout></ProtectedRoute>} />
+        <Route path="/change-password" element={<ChangePassword />} />
         <Route path="*" element={<PageNotFound />} />
 
       </Routes>
